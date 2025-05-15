@@ -1,9 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../widgets/app_back_button.dart';
-import '../widgets/feature_card.dart';
-import '../widgets/result_display.dart';
-import '../channels/method_channel_handler.dart';
+
+// Project imports:
+import 'package:platform_channels_demo/channels/method_channel_handler.dart';
+import 'package:platform_channels_demo/widgets/app_back_button.dart';
+import 'package:platform_channels_demo/widgets/feature_card.dart';
+import 'package:platform_channels_demo/widgets/result_display.dart';
 
 class MethodChannelScreen extends StatefulWidget {
   const MethodChannelScreen({super.key});
@@ -14,20 +17,19 @@ class MethodChannelScreen extends StatefulWidget {
 
 class _MethodChannelScreenState extends State<MethodChannelScreen>
     with SingleTickerProviderStateMixin {
-  late MethodChannelHandler _methodHandler;
-  final Map<String, dynamic> _results = {
-    'batteryLevel': null,
-    'deviceInfo': null,
-    'calculation': null,
-  };
-  bool _isLoading = false;
+  final MethodChannelHandler _methodHandler = MethodChannelHandler();
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
+  bool _isLoading = false;
+
+  // Use specific types for each result
+  String? _batteryLevelResult;
+  String? _deviceInfoResult;
+  String? _calculationResult;
 
   @override
   void initState() {
     super.initState();
-    _methodHandler = MethodChannelHandler();
 
     // Setup animations
     _animationController = AnimationController(
@@ -35,7 +37,7 @@ class _MethodChannelScreenState extends State<MethodChannelScreen>
       duration: const Duration(milliseconds: 300),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
     );
 
@@ -53,11 +55,11 @@ class _MethodChannelScreenState extends State<MethodChannelScreen>
     try {
       final batteryLevel = await _methodHandler.getBatteryLevel();
       setState(() {
-        _results['batteryLevel'] = batteryLevel;
+        _batteryLevelResult = '$batteryLevel%';
       });
     } on PlatformException catch (e) {
       setState(() {
-        _results['batteryLevel'] = 'Error: ${e.message}';
+        _batteryLevelResult = 'Error: ${e.message}';
       });
     } finally {
       setState(() => _isLoading = false);
@@ -69,11 +71,11 @@ class _MethodChannelScreenState extends State<MethodChannelScreen>
     try {
       final deviceInfo = await _methodHandler.getDeviceInfo();
       setState(() {
-        _results['deviceInfo'] = deviceInfo;
+        _deviceInfoResult = deviceInfo;
       });
     } on PlatformException catch (e) {
       setState(() {
-        _results['deviceInfo'] = 'Error: ${e.message}';
+        _deviceInfoResult = 'Error: ${e.message}';
       });
     } finally {
       setState(() => _isLoading = false);
@@ -86,11 +88,11 @@ class _MethodChannelScreenState extends State<MethodChannelScreen>
       // Using a and b as 42 and 24 for a nice demo
       final result = await _methodHandler.calculateSum(42, 24);
       setState(() {
-        _results['calculation'] = 'Sum: $result';
+        _calculationResult = 'Sum: $result';
       });
     } on PlatformException catch (e) {
       setState(() {
-        _results['calculation'] = 'Error: ${e.message}';
+        _calculationResult = 'Error: ${e.message}';
       });
     } finally {
       setState(() => _isLoading = false);
@@ -110,7 +112,7 @@ class _MethodChannelScreenState extends State<MethodChannelScreen>
       body: FadeTransition(
         opacity: _fadeAnimation,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -143,11 +145,9 @@ class _MethodChannelScreenState extends State<MethodChannelScreen>
                         actionText: 'Get Battery Level',
                         resultWidget: ResultDisplay(
                           value:
-                              _results['batteryLevel'] != null
-                                  ? '${_results['batteryLevel']}%'
-                                  : 'Press the button to get battery level',
-                          isLoading:
-                              _isLoading && _results['batteryLevel'] == null,
+                              _batteryLevelResult ??
+                              'Press the button to get battery level',
+                          isLoading: _isLoading && _batteryLevelResult == null,
                         ),
                       ),
 
@@ -164,10 +164,9 @@ class _MethodChannelScreenState extends State<MethodChannelScreen>
                         actionText: 'Get Device Info',
                         resultWidget: ResultDisplay(
                           value:
-                              _results['deviceInfo'] ??
+                              _deviceInfoResult ??
                               'Press the button to get device info',
-                          isLoading:
-                              _isLoading && _results['deviceInfo'] == null,
+                          isLoading: _isLoading && _deviceInfoResult == null,
                         ),
                       ),
 
@@ -184,10 +183,9 @@ class _MethodChannelScreenState extends State<MethodChannelScreen>
                         actionText: 'Calculate Sum',
                         resultWidget: ResultDisplay(
                           value:
-                              _results['calculation'] ??
+                              _calculationResult ??
                               'Press the button to calculate',
-                          isLoading:
-                              _isLoading && _results['calculation'] == null,
+                          isLoading: _isLoading && _calculationResult == null,
                         ),
                       ),
                     ],

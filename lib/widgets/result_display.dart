@@ -1,10 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 class ResultDisplay extends StatelessWidget {
+  const ResultDisplay({required this.value, super.key, this.isLoading = false});
   final String value;
   final bool isLoading;
-
-  const ResultDisplay({super.key, required this.value, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {

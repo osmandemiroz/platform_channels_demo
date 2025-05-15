@@ -1,6 +1,9 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screens/home_screen.dart';
+
+// Project imports:
+import 'package:platform_channels_demo/screens/home_screen.dart';
 
 void main() {
   // Set preferred orientations and status bar style
@@ -31,10 +34,7 @@ class NativeBridgeApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF407BFF),
-          brightness: Brightness.light,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF407BFF)),
         fontFamily: 'SF Pro Display',
         appBarTheme: const AppBarTheme(
           centerTitle: true,

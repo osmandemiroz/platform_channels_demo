@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_setters_without_getters, document_ignores
+
+// Flutter imports:
 import 'package:flutter/services.dart';
 
 /// Function type for receiving messages from the platform.
@@ -5,6 +8,11 @@ typedef MessageReceiveHandler = void Function(String message);
 
 /// Handles simple message passing between Flutter and the native platform.
 class BasicMessageHandler {
+  /// Default constructor
+  BasicMessageHandler() {
+    _setupMessageHandler();
+  }
+
   /// The basic message channel used for message passing with the native platform.
   static const BasicMessageChannel<dynamic> _messageChannel =
       BasicMessageChannel<dynamic>(
@@ -12,10 +20,8 @@ class BasicMessageHandler {
         StandardMessageCodec(),
       );
 
-  /// Default constructor
-  BasicMessageHandler() {
-    _setupMessageHandler();
-  }
+  /// Function to be called when a message is received from the platform.
+  MessageReceiveHandler? _onMessageReceived;
 
   /// Sets up a handler for incoming messages.
   void _setupMessageHandler() {
@@ -27,11 +33,8 @@ class BasicMessageHandler {
     });
   }
 
-  /// Function to be called when a message is received from the platform.
-  MessageReceiveHandler? _onMessageReceived;
-
   /// Sets a handler function to be called when messages are received.
-  void setMessageReceiveHandler(MessageReceiveHandler handler) {
+  set messageReceiveHandler(MessageReceiveHandler handler) {
     _onMessageReceived = handler;
   }
 

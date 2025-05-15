@@ -1,6 +1,11 @@
+// Dart imports:
 import 'dart:async';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
-import '../channels/event_channel_handler.dart';
+
+// Project imports:
+import 'package:platform_channels_demo/channels/event_channel_handler.dart';
 
 class EventChannelScreen extends StatefulWidget {
   const EventChannelScreen({super.key});
@@ -30,7 +35,7 @@ class _EventChannelScreenState extends State<EventChannelScreen>
       duration: const Duration(milliseconds: 300),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
     );
 
@@ -54,7 +59,7 @@ class _EventChannelScreenState extends State<EventChannelScreen>
     _eventSubscription = _eventHandler.eventStream.listen(
       (dynamic event) {
         // Convert the event to our EventData model
-        final EventData eventData = EventData.fromJson(event);
+        final eventData = EventData.fromJson(event as Map<dynamic, dynamic>);
 
         setState(() {
           _events.insert(0, eventData);
@@ -111,7 +116,7 @@ class _EventChannelScreenState extends State<EventChannelScreen>
       body: FadeTransition(
         opacity: _fadeAnimation,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -335,8 +340,8 @@ class _EventChannelScreenState extends State<EventChannelScreen>
   }
 
   Widget _buildEventCard(EventData event) {
-    final Color typeColor = _getEventTypeColor(event.type);
-    final String formattedTime = _formatTimestamp(event.timestamp);
+    final typeColor = _getEventTypeColor(event.type);
+    final formattedTime = _formatTimestamp(event.timestamp);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -405,19 +410,15 @@ class _EventChannelScreenState extends State<EventChannelScreen>
   }
 
   String _formatTimestamp(int timestamp) {
-    final DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
-    final String hours = dateTime.hour.toString().padLeft(2, '0');
-    final String minutes = dateTime.minute.toString().padLeft(2, '0');
-    final String seconds = dateTime.second.toString().padLeft(2, '0');
+    final dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    final hours = dateTime.hour.toString().padLeft(2, '0');
+    final minutes = dateTime.minute.toString().padLeft(2, '0');
+    final seconds = dateTime.second.toString().padLeft(2, '0');
     return '$hours:$minutes:$seconds';
   }
 }
 
 class EventData {
-  final String type;
-  final dynamic value;
-  final int timestamp;
-
   EventData({required this.type, required this.value, required this.timestamp});
 
   factory EventData.fromJson(Map<dynamic, dynamic> json) {
@@ -427,4 +428,7 @@ class EventData {
       timestamp: json['timestamp'] as int,
     );
   }
+  final String type;
+  final dynamic value;
+  final int timestamp;
 }

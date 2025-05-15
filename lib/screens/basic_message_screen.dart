@@ -1,5 +1,8 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import '../channels/basic_message_handler.dart';
+
+// Project imports:
+import 'package:platform_channels_demo/channels/basic_message_handler.dart';
 
 class BasicMessageScreen extends StatefulWidget {
   const BasicMessageScreen({super.key});
@@ -16,7 +19,7 @@ class _BasicMessageScreenState extends State<BasicMessageScreen>
 
   String? _response;
   bool _isSending = false;
-  List<MessageExchange> _messageHistory = [];
+  final List<MessageExchange> _messageHistory = [];
 
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
@@ -25,7 +28,7 @@ class _BasicMessageScreenState extends State<BasicMessageScreen>
   void initState() {
     super.initState();
     _messageHandler = BasicMessageHandler();
-    _messageHandler.setMessageReceiveHandler(_onMessageReceived);
+    _messageHandler.messageReceiveHandler = _onMessageReceived;
 
     // Setup animations
     _animationController = AnimationController(
@@ -33,7 +36,7 @@ class _BasicMessageScreenState extends State<BasicMessageScreen>
       duration: const Duration(milliseconds: 300),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
     );
 
@@ -148,7 +151,7 @@ class _BasicMessageScreenState extends State<BasicMessageScreen>
       body: FadeTransition(
         opacity: _fadeAnimation,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -393,15 +396,14 @@ class _BasicMessageScreenState extends State<BasicMessageScreen>
 }
 
 class MessageExchange {
-  final String message;
-  final bool isFromPlatform;
-  final DateTime timestamp;
-  final bool isError;
-
   MessageExchange({
     required this.message,
     required this.isFromPlatform,
     required this.timestamp,
     this.isError = false,
   });
+  final String message;
+  final bool isFromPlatform;
+  final DateTime timestamp;
+  final bool isError;
 }

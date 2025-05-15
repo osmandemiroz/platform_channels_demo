@@ -1,3 +1,4 @@
+// Flutter imports:
 import 'package:flutter/services.dart';
 
 /// Handles communication with the platform through method channels.
@@ -13,8 +14,8 @@ class MethodChannelHandler {
   /// Throws [PlatformException] if the method is not implemented or fails.
   Future<int> getBatteryLevel() async {
     try {
-      final int result = await _methodChannel.invokeMethod('getBatteryLevel');
-      return result;
+      final result = await _methodChannel.invokeMethod('getBatteryLevel');
+      return result as int;
     } on PlatformException {
       rethrow;
     }
@@ -26,8 +27,8 @@ class MethodChannelHandler {
   /// Throws [PlatformException] if the method is not implemented or fails.
   Future<String> getDeviceInfo() async {
     try {
-      final String result = await _methodChannel.invokeMethod('getDeviceInfo');
-      return result;
+      final result = await _methodChannel.invokeMethod('getDeviceInfo');
+      return result as String;
     } on PlatformException {
       rethrow;
     }
@@ -39,11 +40,11 @@ class MethodChannelHandler {
   /// Throws [PlatformException] if the method is not implemented or fails.
   Future<int> calculateSum(int a, int b) async {
     try {
-      final int result = await _methodChannel.invokeMethod('computeSum', {
+      final result = await _methodChannel.invokeMethod('computeSum', {
         'a': a,
         'b': b,
       });
-      return result;
+      return result as int;
     } on PlatformException {
       rethrow;
     }

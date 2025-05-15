@@ -1,7 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'method_channel_screen.dart';
-import 'event_channel_screen.dart';
-import 'basic_message_screen.dart';
+
+// Project imports:
+import 'package:platform_channels_demo/screens/basic_message_screen.dart';
+import 'package:platform_channels_demo/screens/event_channel_screen.dart';
+import 'package:platform_channels_demo/screens/method_channel_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -96,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            MaterialPageRoute<void>(
                               builder: (context) => const MethodChannelScreen(),
                             ),
                           );
@@ -116,7 +119,7 @@ class HomeScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            MaterialPageRoute<void>(
                               builder: (context) => const EventChannelScreen(),
                             ),
                           );
@@ -136,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            MaterialPageRoute<void>(
                               builder: (context) => const BasicMessageScreen(),
                             ),
                           );
@@ -180,7 +183,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              'Platform channels enable Flutter to communicate with native code on iOS and Android. They are essential for accessing device capabilities not available in Flutter\'s standard APIs.',
+                              "Platform channels enable Flutter to communicate with native code on iOS and Android. They are essential for accessing device capabilities not available in Flutter's standard APIs.",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.black.withOpacity(0.7),

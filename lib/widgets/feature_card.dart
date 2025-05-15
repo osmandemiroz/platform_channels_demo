@@ -1,14 +1,9 @@
+// ignore_for_file: always_put_required_named_parameters_first, document_ignores
+
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 class FeatureCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final IconData icon;
-  final Color iconColor;
-  final VoidCallback? onActionPressed;
-  final String actionText;
-  final Widget resultWidget;
-
   const FeatureCard({
     super.key,
     required this.title,
@@ -19,6 +14,13 @@ class FeatureCard extends StatelessWidget {
     required this.actionText,
     required this.resultWidget,
   });
+  final String title;
+  final String description;
+  final IconData icon;
+  final Color iconColor;
+  final VoidCallback? onActionPressed;
+  final String actionText;
+  final Widget resultWidget;
 
   @override
   Widget build(BuildContext context) {
