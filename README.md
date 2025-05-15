@@ -1,10 +1,10 @@
-# Native Bridge - Flutter Platform Channels Showcase
+# Platform Channel - Flutter Platform Channels Showcase
 
 A comprehensive demonstration of Flutter platform channels for seamless native code integration.
 
 ## Overview
 
-Native Bridge is a comprehensive demonstration app showcasing Flutter's platform channel capabilities for seamless native code integration. The app implements all three types of platform channels:
+Platform Channel is a comprehensive demonstration app showcasing Flutter's platform channel capabilities for seamless native code integration. The app implements all three types of platform channels:
 
 - **Method Channels**: Call native methods from Flutter and receive results
 - **Event Channels**: Stream continuous data from native platforms to Flutter
@@ -70,12 +70,12 @@ The app demonstrates key platform channel implementation concepts:
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/native-bridge.git
+   git clone https://github.com/osmandemiroz/platform_channels_demo.git
    ```
 
 2. Navigate to the project folder:
    ```
-   cd native-bridge
+   cd platform_channels_demo
    ```
 
 3. Install dependencies:
